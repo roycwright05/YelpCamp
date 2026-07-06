@@ -1,0 +1,8 @@
+GitHub remote setup:
+
+git remote set-url origin https://github.com/roycwright05/YelpCamp.git
+git remote -v
+git branch -M main
+git push -u origin main
+
+Never save personal access tokens in project files or remote URLs.
