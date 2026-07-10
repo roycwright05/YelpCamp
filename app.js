@@ -30,15 +30,10 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/makeCampground', async (req, res) => {
-    const camp = Campground({
-        title: 'Big Bear',
-        description: 'East of LA, very nice...hopefully'
-    })
+app.get('/campgrounds', async (req, res) => {
 
-    await camp.save()
-
-    res.send(camp)
+    const campgrounds = await Campground.find({})
+    res.render('campgrounds/index', { campgrounds })
 })
 
 app.listen(port, () => 
