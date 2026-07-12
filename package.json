@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/mrwright05/YelpCamp#readme",
   "dependencies": {
+    "body-parser": "^2.3.0",
     "ejs": "^6.0.1",
     "express": "^5.2.1",
     "mongoose": "^9.7.3"

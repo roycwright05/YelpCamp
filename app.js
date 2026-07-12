@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const mongoose = require('mongoose')
 const Campground = require('./models/campground')
+const campground = require('./models/campground')
 
 mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp').then(() => {
     console.log(`MONGO CONNECTION OPEN`)
@@ -24,7 +25,7 @@ const app = express()
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.render('home')
@@ -40,8 +41,12 @@ app.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new')
 })
 
-app.post('/campgrounds', (req, res) => {
-    res.send(req.body)
+app.post('/campgrounds', async (req, res) => {
+    const campground = new Campground(req.body.campground)
+    await campground.save()
+    res.redirect(`/campgrounds/${campground._id}`)
+
+    //res.send(req.body)
 })
 app.get('/campgrounds/:id', async (req, res) => {
 
@@ -49,7 +54,6 @@ app.get('/campgrounds/:id', async (req, res) => {
     const campground = await Campground.findById(id)
     res.render('campgrounds/show', { campground })    
 })
-
 
 
 app.listen(port, () => 
