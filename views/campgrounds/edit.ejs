@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Campground</title>
+    <title>Edit Campground</title>
 </head>
 <body>
-    <h1>Create A New Campground</h1>
+    <h1>Edit A Campground</h1>
     <form action="/campgrounds" method="POST">
 
         <div>
@@ -19,7 +19,7 @@
         </div>
         <button>Add Campground</button>
     </form>
-    <a href="/campgrounds">All Campgrounds</a>
+    <a href="/campgrounds/ <%= campground._id  %>">Back To Campground</a>
     
 </body>
 </html>
