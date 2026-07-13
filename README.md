@@ -3,8 +3,18 @@ to start mongo, connect
 mongod
 mongosh
 
-id to delete:
+morgan - middleware
 
-    6a528714ba7ecb129fcad3e3
+New Middleware:
 
-    6a5288d4071376c636e8492c
+ejs-mate
+
+Bootstraps link:
+https://getbootstrap.com/
+
+npm i bootstrap@5.3.8
+
+No need to install
+
+#add a link to the header, and add two script tags to the body at the end of your boilerplate
+#template file
