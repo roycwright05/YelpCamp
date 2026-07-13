@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Campground</title>
-</head>
-<body>
+
+    <% layout('layouts/boilerplate') %>
     <h1>Edit A Campground</h1>
     <form action="/campgrounds/<%=campground._id %>?_method=PUT" method="POST">
 
@@ -19,9 +13,15 @@
         </div>
         <button>Update Campground</button>
     </form>
-    <a href="/campgrounds/<%= campground._id%>">Back To Campground</a>
+
+        <a href="/campgrounds/<%= campground._id %>">Back To Details Page</a>
+    <footer>
+        <button>
+            <a href="/campgrounds">Back To Campground</a>
+        </button>
+    </footer>
     
-</body>
-</html>
+    
+
 
 <!-- /<%= campground._id  %> -->
