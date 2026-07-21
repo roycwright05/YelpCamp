@@ -18,3 +18,12 @@ No need to install
 
 #add a link to the header, and add two script tags to the body at the end of your boilerplate
 #template file
+
+image: `https://picsum.photos/400?random=${Math.random()}`,
+
+So, instead of this line in your seeds/index.js code:
+
+image: 'https://source.unsplash.com/collection/483251',
+Change that line to exactly the line shown below (copy-paste the line below into your code as a replacement):
+
+image: `https://picsum.photos/400?random=${Math.random()}`,
