@@ -29,3 +29,6 @@ Change that line to exactly the line shown below (copy-paste the line below into
 image: `https://picsum.photos/400?random=${Math.random()}`,
 
 https://github.com/Colt/YelpCamp/blob/c12b6ca9576b48b579bc304f701ebb71d6f9879a/seeds/seedHelpers.js
+
+
+# app.all('/{*path}', (req, res, next) => {

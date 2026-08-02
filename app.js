@@ -3,6 +3,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
 const catchAsync = require('./utils/catchAsync')
+const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 const Campground = require('./models/campground')
 const campground = require('./models/campground')
@@ -79,9 +80,19 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
     res.redirect('/campgrounds')
 }))
 
+//  ----------- All Routes completed
+
+app.all('/{*path}', (req, res, next) => {
+
+    //*** NOT WORKING */
+    //res.send('<h1> 404 Error 🦖 </h1>')
+    next( new ExpressError('Page Not Found', 404))
+})
 app.use((err, req, res, next) => {
 
-    res.send('Oh Boy! Something went wrong!')
+    const { statusCode=505, message='Something went wrong' } = err
+    res.status(statusCode).send(message)
+    
 })
 
 
