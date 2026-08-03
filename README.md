@@ -32,3 +32,7 @@ https://github.com/Colt/YelpCamp/blob/c12b6ca9576b48b579bc304f701ebb71d6f9879a/s
 
 
 # app.all('/{*path}', (req, res, next) => {
+
+    JOI - data validator for javaScript
+
+    https://joi.dev/api/18.x.x
