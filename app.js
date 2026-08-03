@@ -48,6 +48,7 @@ app.get('/campgrounds/new', (req, res) => {
 
 app.post('/campgrounds', catchAsync(async (req, res, next) => {
     
+        if(!req.body.campground) throw new ExpressError('Invalid Campground Data', 400)
         const campground = new Campground(req.body.campground)
         await campground.save()
         res.redirect(`/campgrounds/${campground._id}`)    
@@ -84,14 +85,17 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
 
 app.all('/{*path}', (req, res, next) => {
 
-    //*** NOT WORKING */
-    //res.send('<h1> 404 Error 🦖 </h1>')
-    next( new ExpressError('Page Not Found', 404))
+    //res.send(' <h1>404 Error 🦖 </h1>')
+    next( new ExpressError('Page Not Found', 404) )
 })
+
+//******* Generic error message */
 app.use((err, req, res, next) => {
 
-    const { statusCode=505, message='Something went wrong' } = err
-    res.status(statusCode).send(message)
+    const { statusCode=500 } = err
+    if(!err.message) err.message = "Aww man, something is wrong here!"
+    res.status(statusCode).render('error', { err })
+    
     
 })
 
@@ -104,3 +108,5 @@ app.listen(port, () =>
     //include this code in the SHOW app.get function
     //console.log(await Campground.find({}))       
     //const campground = await Campground.findByIdAndDelete('6a5285630b86abf5cf2dce58')
+
+    //      http://localhost:6190/campgrounds/
