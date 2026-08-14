@@ -9,6 +9,7 @@ const methodOverride = require('method-override')
 const Campground = require('./models/campground')
 const campground = require('./models/campground')
 const {campgroundSchema} = require('./schemas')
+const Review = require('./models/review')
 
 mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp').then(() => {
     console.log(`MONGO CONNECTION OPEN`)
@@ -95,6 +96,18 @@ app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
     res.redirect('/campgrounds')
 }))
 
+//---------  Reviews Route
+
+app.post('/campgrounds/:id/reviews', catchAsync(async(req, res) => {
+
+   const campground = await Campground.findById(req.params.id)
+   const review = new Review(req.body.review)
+   campground.reviews.push(review)
+   await review.save()
+   await campground.save()
+   res.redirect(`/campgrounds/${campground._id}`)
+}))
+
 //  ----------- All Routes completed
 
 app.all('/{*path}', (req, res, next) => {
@@ -124,3 +137,5 @@ app.listen(port, () =>
     //const campground = await Campground.findByIdAndDelete('6a5285630b86abf5cf2dce58')
 
     //      http://localhost:6190/campgrounds/
+
+    // POST/campgrounds/:id/reviews
