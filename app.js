@@ -34,7 +34,7 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'))
-
+app.use('/campgrounds', campgrounds)
 const validateCampground = (req, res, next) => {   
 
    const { error } = campgroundSchema.validate(req.body)
@@ -59,7 +59,7 @@ const validateReview = (req, res, next) => {
        }
 }
 
-app.use('/campgrounds', campgrounds)
+//app.use('/campgrounds', campgrounds)
 
 app.get('/', (req, res) => {
     res.render('campgrounds/home')
