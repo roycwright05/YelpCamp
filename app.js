@@ -1,4 +1,5 @@
 const express = require('express')
+const campgrounds = require('./routes/campgrounds')
 const path = require('path')
 const mongoose = require('mongoose')
 const ejsMate = require('ejs-mate')
@@ -58,55 +59,57 @@ const validateReview = (req, res, next) => {
        }
 }
 
+app.use('/campgrounds', campgrounds)
+
 app.get('/', (req, res) => {
     res.render('campgrounds/home')
 })
 
-app.get('/campgrounds', catchAsync(async (req, res) => {
+// app.get('/campgrounds', catchAsync(async (req, res) => {
 
-    const campgrounds = await Campground.find({})
-    res.render('campgrounds/index', { campgrounds })
-}))
+//     const campgrounds = await Campground.find({})
+//     res.render('campgrounds/index', { campgrounds })
+// }))
 
-app.get('/campgrounds/new', (req, res) => {
-    res.render('campgrounds/new')
-})
+// app.get('/campgrounds/new', (req, res) => {
+//     res.render('campgrounds/new')
+// })
 
-app.post('/campgrounds', validateCampground, catchAsync(async (req, res, next) => {
+// app.post('/campgrounds', validateCampground, catchAsync(async (req, res, next) => {
     
      
-        const campground = new Campground(req.body.campground)
-        await campground.save()
-        res.redirect(`/campgrounds/${campground._id}`)    
-}))
+//         const campground = new Campground(req.body.campground)
+//         await campground.save()
+//         res.redirect(`/campgrounds/${campground._id}`)    
+// }))
 
-//** SHOW APP.GET */
-app.get('/campgrounds/:id', catchAsync(async (req, res) => {
+// //** SHOW APP.GET */
+// app.get('/campgrounds/:id', catchAsync(async (req, res) => {
 
-    const id = req.params.id    
-    const campground = await Campground.findById(id).populate('reviews')
+//     const id = req.params.id    
+//     const campground = await Campground.findById(id).populate('reviews')
     
-    res.render('campgrounds/show', { campground })    
-}))
+//     res.render('campgrounds/show', { campground })    
+// }))
 
-app.get('/campgrounds/:id/edit', catchAsync(async(req, res) => {
-    const campground = await Campground.findById(req.params.id)
-    res.render('campgrounds/edit', { campground })
-}))
+// app.get('/campgrounds/:id/edit', catchAsync(async(req, res) => {
+//     const campground = await Campground.findById(req.params.id)
+//     res.render('campgrounds/edit', { campground })
+// }))
 
-app.put('/campgrounds/:id', validateCampground, catchAsync(async (req, res) => {
-    console.log(req.params)
-    const { id } = req.params
-    const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground })
-    res.redirect(`/campgrounds/${campground._id}`)
-}))
+// app.put('/campgrounds/:id', validateCampground, catchAsync(async (req, res) => {
+//     console.log(req.params)
+//     const { id } = req.params
+//     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground })
+//     res.redirect(`/campgrounds/${campground._id}`)
+// }))
 
-app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
+// app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
 
-    const { id } = req.params
-    await Campground.findByIdAndDelete(id)
-    res.redirect('/campgrounds')
-}))
+//     const { id } = req.params
+//     await Campground.findByIdAndDelete(id)
+//     res.redirect('/campgrounds')
+// }))
 
 //---------  Reviews Route
 
