@@ -6,5 +6,13 @@
     </div>
     <% } %>
 
-
+    <% if(error && error.length){  %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">    
+            <%= error %>
+           
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <% } %>
     
+
+        <!-- http://localhost:6190/campgrounds/6aa7384e601d4534a72e9a85 -->

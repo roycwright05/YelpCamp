@@ -49,3 +49,5 @@ https://github.com/Colt/YelpCamp/blob/c12b6ca9576b48b579bc304f701ebb71d6f9879a/s
     npm install mongoose@"<7.0.0"
 
 https://www.udemy.com/course/the-web-developer-bootcamp/learn/lecture/36751378#questions/13952562
+
+GitHub link:        https://github.com/roycwright05/YelpCamp/tree/remote
