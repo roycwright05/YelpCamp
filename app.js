@@ -1,16 +1,19 @@
-const express = require('express')
+const express = require('express');
 
-const path = require('path')
-const mongoose = require('mongoose')
-const ejsMate = require('ejs-mate')
-const session = require('express-session')
-const flash = require('connect-flash')
-const ExpressError = require('./utils/ExpressError')
-const methodOverride = require('method-override')
-//const { campgroundSchema, reviewSchema } = require('./schemas')
+const path = require('path');
+const mongoose = require('mongoose');
+const ejsMate = require('ejs-mate');
+const session = require('express-session');
+const flash = require('connect-flash');
+const ExpressError = require('./utils/ExpressError');
+const methodOverride = require('method-override');
 
-const campgrounds = require('./routes/campgrounds')
-const reviews = require('./routes/reviews')
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
+
+const campgrounds = require('./routes/campgrounds');
+const reviews = require('./routes/reviews');
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp').then(() => {
@@ -19,24 +22,24 @@ mongoose.connect('mongodb://127.0.0.1:27017/yelp-camp').then(() => {
 .catch( err => {
     console.log(`HOUSTON. WE HAVE A PROBLEM`)
     console.log(err)
-})
+});
 
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', () => {
     console.log('Database connected')
-})
+});
 
-const port = 6190
-const app = express()
+const port = 6190;
+const app = express();
 
-app.engine('ejs', ejsMate)
-app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, 'views'))
+app.engine('ejs', ejsMate);
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 //-------- Some session updates
 
@@ -49,21 +52,30 @@ const sessionConfig = {
         maxAge: 1000 * 60 * 60 * 24 * 7,
     }
 }
-app.use(session(sessionConfig))
-app.use(flash())
+app.use(session(sessionConfig));
+app.use(flash());
+
+//-------- Passport needs to be set AFTER session 
+app.use(passport.initialize());
+app.use(passport.session({ secret: 'algo'}));
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
     res.locals.success = req.flash('success')
     res.locals.error = req.flash('error')
     next()
-})
+});
 
 
-app.use('/campgrounds', campgrounds)
-app.use('/campgrounds/:id/reviews', reviews)
+app.use('/campgrounds', campgrounds);
+app.use('/campgrounds/:id/reviews', reviews);
 
 const validateCampground = (req, res, next) => {   
 
-   const { error } = campgroundSchema.validate(req.body)
+   const { error } = campgroundSchema.validate(req.body);
    if(error){
     const msg = error.details.map( el => el.message).join(',')
     throw new ExpressError(msg, 400)
@@ -89,7 +101,7 @@ const validateReview = (req, res, next) => {
 
 app.get('/', (req, res) => {
     res.render('campgrounds/home')
-})
+});
 
 // app.get('/campgrounds', catchAsync(async (req, res) => {
 
@@ -162,24 +174,23 @@ app.get('/', (req, res) => {
 app.all('/{*path}', (req, res, next) => {
 
     //res.send(' <h1>404 Error 🦖 </h1>')
-    next( new ExpressError('Page Not Found', 404) )
-})
+    next( new ExpressError('Page Not Found', 404) );
+});
 
 //******* Generic error message */
 app.use((err, req, res, next) => {
 
     const { statusCode=500 } = err
     if(!err.message) err.message = "Aww man, something is wrong here!"
-    res.status(statusCode).render('error', { err })
+    res.status(statusCode).render('error', { err });    
     
-    
-})
+});
 
 
 app.listen(port, () => 
     {
-        console.log(`Servicing on port ${port}`)
-    })
+        console.log(`Servicing on port ${port}`);
+    });
 
     //include this code in the SHOW app.get function
     //console.log(await Campground.find({}))       
