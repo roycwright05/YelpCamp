@@ -10,8 +10,9 @@
                   <p class="card-text"><%= campground.description %></p>
                   <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 </div>
-                <ul class="list-group">
+                <ul class="list-group list-group-flush">
                     <li class="list-group-item text-muted"><%= campground.location %></li>
+                    <li class="list-group-item">Submitted by: <strong><%= campground.author.username.toUpperCase() %></strong></li>
                     <li class="list-group-item">$<%= campground.price %>/night</li>                    
                 </ul>
                 <div class="card-body">                    

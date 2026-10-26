@@ -1,20 +1,24 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const review = require('./review')
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const review = require('./review');
 
 const campgroundSchema = new Schema({
     title: String,
     image: String,
     price: Number,
     description: String,
-    location:String,
+    location: String,
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }, 
     reviews: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Review'
         }
     ]
-})
+});
 
    campgroundSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
@@ -22,4 +26,7 @@ const campgroundSchema = new Schema({
     }
   });
 
-module.exports = mongoose.model('Campground', campgroundSchema)
+module.exports = mongoose.model('Campground', campgroundSchema);
+
+// timmeh2
+// objectId: 6ad805daeec83088e4174eea
